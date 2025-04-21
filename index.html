@@ -38,22 +38,10 @@
         },
       };
     </script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.js"></script>
@@ -72,19 +60,10 @@
         font-size: 14px;
       }
       @keyframes flicker {
-        0%,
-        19%,
-        21%,
-        23%,
-        25%,
-        54%,
-        56%,
-        100% {
+        0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
           opacity: 1;
         }
-        20%,
-        24%,
-        55% {
+        20%, 24%, 55% {
           opacity: 0.4;
         }
       }
@@ -99,17 +78,11 @@
     </style>
   </head>
   <body class="dark:bg-premium bg-white text-white">
-    <div
-      class="absolute inset-0 -z-10 bg-gradient-to-tr from-purple-900 via-black to-blue-900 opacity-80 blur-2xl animate-pulseSlow"
-    ></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-tr from-purple-900 via-black to-blue-900 opacity-80 blur-2xl animate-pulseSlow"></div>
 
     <!-- Title Bar -->
-    <div
-      class="relative z-10 flex items-center justify-between bg-[#1e1e2f] px-4 py-2 shadow-xl border-b border-gray-700 backdrop-blur-md"
-    >
-      <div
-        class="text-lg font-extrabold tracking-widest text-glowing animate-flicker bg-gradient-to-r from-accent to-neon bg-clip-text text-transparent"
-      >
+    <div class="relative z-10 flex items-center justify-between bg-[#1e1e2f] px-4 py-2 shadow-xl border-b border-gray-700 backdrop-blur-md">
+      <div class="text-lg font-extrabold tracking-widest text-glowing animate-flicker bg-gradient-to-r from-accent to-neon bg-clip-text text-transparent">
         ✨ UI DESIGNER
       </div>
       <div class="flex gap-2">
@@ -121,121 +94,91 @@
 
     <div class="relative z-10 flex h-[calc(100vh-112px)]">
       <!-- Sidebar -->
-      <div
-        class="w-72 bg-glass p-5 text-white shadow-glassy border-r border-gray-800 backdrop-blur-md"
-      >
-        <div
-          class="text-xs uppercase tracking-widest text-gray-400 mb-4 font-semibold"
-        >
-          📁 Project Explorer
-        </div>
-        <input
-          id="filename"
-          type="text"
-          placeholder="example.html"
-          class="w-full p-2 mb-4 bg-[#111827] text-xs text-white border border-gray-600 rounded focus:ring-2 focus:ring-accent"
-        />
-        <button
-          onclick="startEditor()"
-          class="w-full bg-accent text-white text-sm py-2 rounded shadow-neon transition-all font-bold"
-        >
-          ➕ Create File
-        </button>
+      <div class="w-72 bg-glass p-5 text-white shadow-glassy border-r border-gray-800 backdrop-blur-md">
+        <div class="text-xs uppercase tracking-widest text-gray-400 mb-4 font-semibold">📁 Project Explorer</div>
+        <input id="filename" type="text" placeholder="example.html" class="w-full p-2 mb-4 bg-[#111827] text-xs text-white border border-gray-600 rounded focus:ring-2 focus:ring-accent" />
+        <button onclick="startEditor()" class="w-full bg-accent text-white text-sm py-2 rounded shadow-neon transition-all font-bold">➕ Create File</button>
         <ul id="file-list" class="text-sm space-y-2 mt-5"></ul>
       </div>
 
       <!-- Editor Panel -->
       <div class="flex-1 bg-editorBg p-5">
-        <div
-          class="flex items-center justify-between mb-3 text-gray-300 text-sm border-b border-gray-700 pb-2"
-        >
-          <span
-            >📝 Editing:
-            <span id="file-display" class="text-accent font-semibold"></span
-          ></span>
-          <button
-            onclick="runCode()"
-            class="px-5 py-2 bg-neon rounded text-black font-bold shadow-neon"
-          >
-            ▶ Run
-          </button>
+        <div class="flex items-center justify-between mb-3 text-gray-300 text-sm border-b border-gray-700 pb-2">
+          <span>📝 Editing: <span id="file-display" class="text-accent font-semibold"></span></span>
+          <button onclick="runCode()" class="px-5 py-2 bg-neon rounded text-black font-bold shadow-neon">▶ Run</button>
         </div>
-        <div
-          id="editor"
-          class="rounded border border-gray-700 shadow-inner"
-        ></div>
+        <div id="editor" class="rounded border border-gray-700 shadow-inner"></div>
       </div>
     </div>
 
     <!-- Footer -->
-    <div
-      class="relative z-10 h-10 bg-accent text-white text-xs px-4 flex items-center justify-between shadow-inner"
-    >
+    <div class="relative z-10 h-10 bg-accent text-white text-xs px-4 flex items-center justify-between shadow-inner">
       <div>Status: UI DESIGNER Premium Mode</div>
       <div>UTF-8 | HTML | LF | Tab Size: 2</div>
     </div>
-  <script>
-  let editor;
 
-  window.onload = function () {
-    loadSavedFiles();
-    editor = CodeMirror(document.getElementById("editor"), {
-      value: "<!-- Start coding here -->\n",
-      mode: "htmlmixed",
-      lineNumbers: true,
-      theme: "material-darker",
-      tabSize: 2,
-      lint: true,
-      lineWrapping: true,
-      autoCloseTags: true,
-      matchTags: { bothTags: true },
-      matchBrackets: true,
-      styleActiveLine: true,
-      extraKeys: { "Ctrl-Space": "autocomplete" },
-    });
-  };
+    <script>
+      let editor;
 
-  function startEditor() {
-    const filename = document.getElementById("filename").value.trim();
-    if (!filename) {
-      alert("Please enter a file name.");
-      return;
-    }
-    localStorage.setItem(filename, "<!-- Start coding here -->\n");
-    loadSavedFiles();
-    document.getElementById("file-display").textContent = filename;
-    editor.setValue("<!-- Start coding here -->\n");
-  }
+      window.onload = function () {
+        loadSavedFiles();
+        editor = CodeMirror(document.getElementById("editor"), {
+          value: "<!-- Start coding here -->\n",
+          mode: "htmlmixed",
+          lineNumbers: true,
+          theme: "material-darker",
+          tabSize: 2,
+          lint: true,
+          lineWrapping: true,
+          autoCloseTags: true,
+          matchTags: { bothTags: true },
+          matchBrackets: true,
+          styleActiveLine: true,
+          extraKeys: { "Ctrl-Space": "autocomplete" },
+        });
+      };
 
-  function loadSavedFiles() {
-    const fileList = document.getElementById("file-list");
-    fileList.innerHTML = "";
-    Object.keys(localStorage).forEach((file) => {
-      const li = document.createElement("li");
-      li.innerHTML = `<button onclick="loadFile('${file}')" class="text-accent">📄 ${file}</button>`;
-      fileList.appendChild(li);
-    });
-  }
+      function startEditor() {
+        const filename = document.getElementById("filename").value.trim();
+        if (!filename) {
+          alert("Please enter a file name.");
+          return;
+        }
+        localStorage.setItem(filename, "<!-- Start coding here -->\n");
+        loadSavedFiles();
+        document.getElementById("file-display").textContent = filename;
+        editor.setValue("<!-- Start coding here -->\n");
+      }
 
-  function loadFile(filename) {
-    const code = localStorage.getItem(filename);
-    document.getElementById("file-display").textContent = filename;
-    editor.setValue(code);
-  }
+      function loadSavedFiles() {
+        const fileList = document.getElementById("file-list");
+        fileList.innerHTML = "";
+        Object.keys(localStorage).forEach((file) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<button onclick="loadFile('${file}')" class="text-accent">📄 ${file}</button>`;
+          fileList.appendChild(li);
+        });
+      }
 
-  function runCode() {
-    const code = editor.getValue();
-    const outputWindow = window.open("", "_blank");
+      function loadFile(filename) {
+        const code = localStorage.getItem(filename);
+        document.getElementById("file-display").textContent = filename;
+        editor.setValue(code);
+      }
 
-    if (!outputWindow) {
-      alert("❗ Pop-up blocked! Please allow pop-ups for this site.");
-      return;
-    }
+      function runCode() {
+        const code = editor.getValue();
+        const outputWindow = window.open("", "_blank");
 
-    outputWindow.document.open();
-    outputWindow.document.write(code);
-    outputWindow.document.close();
-  }
-</script>
+        if (!outputWindow) {
+          alert("❗ Pop-up blocked! Please allow pop-ups for this site.");
+          return;
+        }
+
+        outputWindow.document.open();
+        outputWindow.document.write(code);
+        outputWindow.document.close();
+      }
+    </script>
   </body>
 </html>
