@@ -1,111 +1,238 @@
-<!doctype html>
-<html lang="en" class="dark"> 
- <head> 
-  <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>Premium Code Editor</title> 
-  <script src="https://cdn.tailwindcss.com"></script> 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-    }
-  </script> <!-- CodeMirror --> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css"> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.css"> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/json-lint.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/javascript-lint.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/css-lint.min.js"></script> 
- </head> 
- <body class="dark:bg-gradient-to-br dark:from-purple-900 dark:via-black dark:to-purple-950 bg-white min-h-screen p-6 text-black dark:text-white font-sans relative transition duration-500"> <!-- Toggle Button --> <button onclick="toggleTheme()" title="Toggle Theme" class="fixed top-4 left-4 w-10 h-10 bg-yellow-400 dark:bg-gray-800 rounded-full shadow-md flex items-center justify-center text-black dark:text-white hover:ring-2 ring-white z-50"> 🌙 </button> <!-- Header --> 
-  <div class="text-center mb-6"> 
-   <h1 class="text-4xl font-bold">Premium Code Editor</h1> 
-   <p class="text-purple-400 mt-2">Write and run HTML, CSS, JS in style</p> 
-  </div> <!-- File Name Section --> 
-  <div id="file-section" class="max-w-md mx-auto bg-white dark:bg-gray-900 p-4 rounded-xl shadow-xl text-black dark:text-white mb-6"> <label class="font-semibold block mb-2">Enter File Name:</label> 
-   <input id="filename" type="text" placeholder="myfile.html" class="w-full p-2 rounded border focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"> <button onclick="startEditor()" class="w-full bg-purple-700 text-white py-2 mt-3 rounded hover:bg-purple-800">Create File</button> 
-  </div> <!-- File List Section --> 
-  <div id="file-list-section" class="max-w-md mx-auto bg-white dark:bg-gray-900 p-4 rounded-xl shadow-xl text-black dark:text-white mb-6"> 
-   <h2 class="font-semibold mb-2">Saved Files:</h2> 
-   <ul id="file-list" class="space-y-2"></ul> 
-  </div> <!-- Editor Section --> 
-  <div id="editor-section" class="hidden max-w-6xl mx-auto"> 
-   <div class="text-xl text-center mb-4 font-semibold text-purple-300 dark:text-purple-400">
-    Editing: <span id="file-display"></span>
-   </div> <textarea id="code-input" class="hidden"></textarea> 
-   <div class="border border-purple-700 rounded-lg overflow-hidden"> 
-    <div id="editor" class="h-64"></div> 
-   </div> 
-  </div> <!-- Floating Run Button --> <button onclick="runCode()" title="Run Code" class="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-green-600 hover:bg-green-700 text-white text-xl flex items-center justify-center shadow-lg ring-2 ring-green-300 animate-pulse z-50"> ▶ </button> 
-  <script>
-    let editor;
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI DESIGNER - Premium Code Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              premium: "#0a0a0a",
+              sidebar: "#1c1c1e",
+              editorBg: "#0e0f1b",
+              accent: "#7f5af0",
+              neon: "#2cb67d",
+              glowing: "#00ffe0",
+              glass: "rgba(255, 255, 255, 0.05)",
+            },
+            animation: {
+              pulseSlow: "pulse 4s infinite",
+              flicker: "flicker 3s infinite",
+              shine: "shine 2s infinite linear",
+            },
+            boxShadow: {
+              neon: "0 0 10px #2cb67d, 0 0 20px #2cb67d",
+              glow: "0 0 15px #00ffe0, 0 0 30px #00ffe0",
+              glassy: "0 4px 30px rgba(0, 0, 0, 0.5)",
+            },
+            backdropBlur: {
+              xs: "2px",
+              sm: "4px",
+              md: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/lint/lint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closetag.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/matchtags.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/selection/active-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/html-hint.min.js"></script>
+    <style>
+      body {
+        font-family: "Fira Code", monospace;
+      }
+      .CodeMirror {
+        height: calc(100vh - 112px);
+        font-size: 14px;
+      }
+      @keyframes flicker {
+        0%,
+        19%,
+        21%,
+        23%,
+        25%,
+        54%,
+        56%,
+        100% {
+          opacity: 1;
+        }
+        20%,
+        24%,
+        55% {
+          opacity: 0.4;
+        }
+      }
+      @keyframes shine {
+        0% {
+          background-position: -200% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+    </style>
+  </head>
+  <body class="dark:bg-premium bg-white text-white">
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-tr from-purple-900 via-black to-blue-900 opacity-80 blur-2xl animate-pulseSlow"
+    ></div>
 
-    // Load saved files when page loads
-    window.onload = function() {
-      loadSavedFiles();
-    };
+    <!-- Title Bar -->
+    <div
+      class="relative z-10 flex items-center justify-between bg-[#1e1e2f] px-4 py-2 shadow-xl border-b border-gray-700 backdrop-blur-md"
+    >
+      <div
+        class="text-lg font-extrabold tracking-widest text-glowing animate-flicker bg-gradient-to-r from-accent to-neon bg-clip-text text-transparent"
+      >
+        ✨ UI DESIGNER
+      </div>
+      <div class="flex gap-2">
+        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+      </div>
+    </div>
 
-    function loadSavedFiles() {
-      const savedFiles = Object.keys(localStorage);
-      const fileList = document.getElementById("file-list");
-      fileList.innerHTML = "";
-      savedFiles.forEach(file => {
-        const li = document.createElement("li");
-        li.innerHTML = `<button onclick="loadFile('${file}')" class="text-blue-500 hover:underline">${file}</button>`;
-        fileList.appendChild(li);
-      });
-    }
+    <div class="relative z-10 flex h-[calc(100vh-112px)]">
+      <!-- Sidebar -->
+      <div
+        class="w-72 bg-glass p-5 text-white shadow-glassy border-r border-gray-800 backdrop-blur-md"
+      >
+        <div
+          class="text-xs uppercase tracking-widest text-gray-400 mb-4 font-semibold"
+        >
+          📁 Project Explorer
+        </div>
+        <input
+          id="filename"
+          type="text"
+          placeholder="example.html"
+          class="w-full p-2 mb-4 bg-[#111827] text-xs text-white border border-gray-600 rounded focus:ring-2 focus:ring-accent"
+        />
+        <button
+          onclick="startEditor()"
+          class="w-full bg-accent text-white text-sm py-2 rounded shadow-neon transition-all font-bold"
+        >
+          ➕ Create File
+        </button>
+        <ul id="file-list" class="text-sm space-y-2 mt-5"></ul>
+      </div>
 
-    function startEditor() {
-      const filename = document.getElementById("filename").value.trim();
-      if (!filename) {
-        alert("Please enter a file name.");
-        return;
+      <!-- Editor Panel -->
+      <div class="flex-1 bg-editorBg p-5">
+        <div
+          class="flex items-center justify-between mb-3 text-gray-300 text-sm border-b border-gray-700 pb-2"
+        >
+          <span
+            >📝 Editing:
+            <span id="file-display" class="text-accent font-semibold"></span
+          ></span>
+          <button
+            onclick="runCode()"
+            class="px-5 py-2 bg-neon rounded text-black font-bold shadow-neon"
+          >
+            ▶ Run
+          </button>
+        </div>
+        <div
+          id="editor"
+          class="rounded border border-gray-700 shadow-inner"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div
+      class="relative z-10 h-10 bg-accent text-white text-xs px-4 flex items-center justify-between shadow-inner"
+    >
+      <div>Status: UI DESIGNER Premium Mode</div>
+      <div>UTF-8 | HTML | LF | Tab Size: 2</div>
+    </div>
+
+    <script>
+      let editor;
+
+      window.onload = function () {
+        loadSavedFiles();
+        editor = CodeMirror(document.getElementById("editor"), {
+          value: "<!-- Start coding here -->\n",
+          mode: "htmlmixed",
+          lineNumbers: true,
+          theme: "material-darker",
+          tabSize: 2,
+          lint: true,
+          lineWrapping: true,
+          autoCloseTags: true,
+          matchTags: { bothTags: true },
+          matchBrackets: true,
+          styleActiveLine: true,
+          extraKeys: { "Ctrl-Space": "autocomplete" },
+        });
+      };
+
+      function startEditor() {
+        const filename = document.getElementById("filename").value.trim();
+        if (!filename) {
+          alert("Please enter a file name.");
+          return;
+        }
+        localStorage.setItem(filename, "<!-- Start coding here -->\n");
+        loadSavedFiles();
+        document.getElementById("file-display").textContent = filename;
+        editor.setValue("<!-- Start coding here -->\n");
+        editor.refresh(); // ✅ Fix: Refresh the editor after setting value
       }
 
-      // Save the file to localStorage when created
-      localStorage.setItem(filename, "<!-- Write your HTML, CSS, JS here -->\n");
+      function loadSavedFiles() {
+        const fileList = document.getElementById("file-list");
+        fileList.innerHTML = "";
+        Object.keys(localStorage).forEach((file) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<button onclick="loadFile('${file}')" class="text-accent">📄 ${file}</button>`;
+          fileList.appendChild(li);
+        });
+      }
 
-      // Hide the file name section and show the editor
-      document.getElementById("file-section").classList.add("hidden");
-      document.getElementById("file-list-section").classList.remove("hidden");
-      document.getElementById("editor-section").classList.remove("hidden");
-      document.getElementById("file-display").textContent = filename;
+      function loadFile(filename) {
+        const code = localStorage.getItem(filename);
+        document.getElementById("file-display").textContent = filename;
+        editor.setValue(code);
+        editor.refresh(); // ✅ Fix: Refresh the editor after loading file
+      }
 
-      // Initialize CodeMirror editor with linting enabled
-      editor = CodeMirror(document.getElementById("editor"), {
-        value: "<!-- Write your HTML, CSS, JS here -->\n",
-        mode: "htmlmixed",
-        lineNumbers: true,
-        theme: "dracula",
-        tabSize: 2,
-        lint: true, // Enable linting
-      });
-    }
-
-    function runCode() {
-      const code = editor.getValue();
-      const outputWindow = window.open('', '_blank');
-      outputWindow.document.open();
-      outputWindow.document.write(code);
-      outputWindow.document.close();
-    }
-
-    function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-    }
-
-    // Load a file from localStorage and open it in the editor
-    function loadFile(filename) {
-      const code = localStorage.getItem(filename);
-      document.getElementById("file-display").textContent = filename;
-
-      // Initialize the editor with the saved code
-      editor.setValue(code);
-    }
-  </script> 
- </body>
+      function runCode() {
+        const code = editor.getValue();
+        const outputWindow = window.open("", "_blank");
+        outputWindow.document.open();
+        outputWindow.document.write(code);
+        outputWindow.document.close();
+      }
+    </script>
+  </body>
 </html>
