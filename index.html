@@ -174,65 +174,68 @@
       <div>Status: UI DESIGNER Premium Mode</div>
       <div>UTF-8 | HTML | LF | Tab Size: 2</div>
     </div>
+  <script>
+  let editor;
 
-    <script>
-      let editor;
+  window.onload = function () {
+    loadSavedFiles();
+    editor = CodeMirror(document.getElementById("editor"), {
+      value: "<!-- Start coding here -->\n",
+      mode: "htmlmixed",
+      lineNumbers: true,
+      theme: "material-darker",
+      tabSize: 2,
+      lint: true,
+      lineWrapping: true,
+      autoCloseTags: true,
+      matchTags: { bothTags: true },
+      matchBrackets: true,
+      styleActiveLine: true,
+      extraKeys: { "Ctrl-Space": "autocomplete" },
+    });
+  };
 
-      window.onload = function () {
-        loadSavedFiles();
-        editor = CodeMirror(document.getElementById("editor"), {
-          value: "<!-- Start coding here -->\n",
-          mode: "htmlmixed",
-          lineNumbers: true,
-          theme: "material-darker",
-          tabSize: 2,
-          lint: true,
-          lineWrapping: true,
-          autoCloseTags: true,
-          matchTags: { bothTags: true },
-          matchBrackets: true,
-          styleActiveLine: true,
-          extraKeys: { "Ctrl-Space": "autocomplete" },
-        });
-      };
+  function startEditor() {
+    const filename = document.getElementById("filename").value.trim();
+    if (!filename) {
+      alert("Please enter a file name.");
+      return;
+    }
+    localStorage.setItem(filename, "<!-- Start coding here -->\n");
+    loadSavedFiles();
+    document.getElementById("file-display").textContent = filename;
+    editor.setValue("<!-- Start coding here -->\n");
+  }
 
-      function startEditor() {
-        const filename = document.getElementById("filename").value.trim();
-        if (!filename) {
-          alert("Please enter a file name.");
-          return;
-        }
-        localStorage.setItem(filename, "<!-- Start coding here -->\n");
-        loadSavedFiles();
-        document.getElementById("file-display").textContent = filename;
-        editor.setValue("<!-- Start coding here -->\n");
-        editor.refresh(); // ✅ Fix: Refresh the editor after setting value
-      }
+  function loadSavedFiles() {
+    const fileList = document.getElementById("file-list");
+    fileList.innerHTML = "";
+    Object.keys(localStorage).forEach((file) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<button onclick="loadFile('${file}')" class="text-accent">📄 ${file}</button>`;
+      fileList.appendChild(li);
+    });
+  }
 
-      function loadSavedFiles() {
-        const fileList = document.getElementById("file-list");
-        fileList.innerHTML = "";
-        Object.keys(localStorage).forEach((file) => {
-          const li = document.createElement("li");
-          li.innerHTML = `<button onclick="loadFile('${file}')" class="text-accent">📄 ${file}</button>`;
-          fileList.appendChild(li);
-        });
-      }
+  function loadFile(filename) {
+    const code = localStorage.getItem(filename);
+    document.getElementById("file-display").textContent = filename;
+    editor.setValue(code);
+  }
 
-      function loadFile(filename) {
-        const code = localStorage.getItem(filename);
-        document.getElementById("file-display").textContent = filename;
-        editor.setValue(code);
-        editor.refresh(); // ✅ Fix: Refresh the editor after loading file
-      }
+  function runCode() {
+    const code = editor.getValue();
+    const outputWindow = window.open("", "_blank");
 
-      function runCode() {
-        const code = editor.getValue();
-        const outputWindow = window.open("", "_blank");
-        outputWindow.document.open();
-        outputWindow.document.write(code);
-        outputWindow.document.close();
-      }
-    </script>
+    if (!outputWindow) {
+      alert("❗ Pop-up blocked! Please allow pop-ups for this site.");
+      return;
+    }
+
+    outputWindow.document.open();
+    outputWindow.document.write(code);
+    outputWindow.document.close();
+  }
+</script>
   </body>
 </html>
